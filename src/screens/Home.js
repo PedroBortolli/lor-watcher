@@ -1,11 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
+import useInterval from '../hooks/useInterval'
+import { searchGame } from '../api/api'
+
+const SEARCH_FREQUENCY = 1000
 
 const Home = () => {
+    const [gameFound, setGameActive] = useState(false)
+
+    useInterval(() => {
+        console.log('searching for game')
+        const isGameActive = searchGame()
+        if (isGameActive) setGameActive(isGameActive)
+    }, gameFound ? null : SEARCH_FREQUENCY)
+
+    console.log('gameFound: ', gameFound)
+
     return (
         <Container>
-            LoR Home
+            {gameFound ?
+                <p>Collecting information about your ongoing match, hold tight!</p>
+                :
+                <p>Leave this screen open as you search for a match. Once the game starts your data will be automatically shown here</p>
+            }
         </Container>
     )
 }
@@ -20,4 +38,8 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     height: 100%;
+    padding: 0px 8px;
+    > p {
+        text-align: center;
+    }
 `
