@@ -2,22 +2,22 @@ import React from 'react'
 import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
 
-const Home = () => {
+const Decks = () => {
     return (
         <Container>
-            LoR Home
+            Decks
         </Container>
     )
 }
 
-export default hot(module)(Home)
+export default hot(module)(Decks)
 
 const Container = styled.div`
-    background-color: white;
-    color: black;
-    font-size: 20px;
+    background: #590f17;
+    height: 100%;
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    font-size: 20px;
 `
