@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
 import useInterval from '../hooks/useInterval'
 import { searchGame } from '../api/api'
 
-const SEARCH_FREQUENCY = 1000
+const SEARCH_FREQUENCY = 3000
 
 const Home = () => {
     const [gameFound, setGameActive] = useState(false)
 
-    useInterval(() => {
+    useInterval(async () => {
         console.log('searching for game')
-        const isGameActive = searchGame()
+        const isGameActive = await searchGame()
         if (isGameActive) setGameActive(isGameActive)
     }, gameFound ? null : SEARCH_FREQUENCY)
 
