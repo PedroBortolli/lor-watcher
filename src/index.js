@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Home from './screens/Home'
 import Decks from './screens/Decks'
+import Game from './screens/Game'
 import { HashRouter as Router, Switch, Route, Link, browserHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -17,6 +18,9 @@ const App = () => <>
             <Switch>
                 <Route path="/decks">
                     <Decks />
+                </Route>
+                <Route path="/game">
+                    <Game />
                 </Route>
                 <Route path="/">
                     <Home />

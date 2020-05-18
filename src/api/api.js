@@ -1,9 +1,14 @@
 import axios from 'axios'
 
-const searchGame = async () => {
-    const response = await axios.get('http://localhost:21337/positional-rectangles')
+const getGame = async () => {
+    const response = await axios.get('http://b053375c.ngrok.io/positional-rectangles')
     if (response.data.PlayerName) return { ok: true, data: response.data }
     return { ok: false }
 }
 
-export { searchGame }
+const getResult = async () => {
+    const response = await axios.get('http://b053375c.ngrok.io/game-result')
+    return response
+}
+
+export { getGame, getResult }
