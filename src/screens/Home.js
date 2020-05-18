@@ -7,20 +7,22 @@ import { searchGame } from '../api/api'
 const SEARCH_FREQUENCY = 3000
 
 const Home = () => {
-    const [gameFound, setGameActive] = useState(false)
+    const [game, setGame] = useState({ found: false, data: {} })
 
-    useInterval(async () => {
-        console.log('searching for game')
-        const isGameActive = await searchGame()
-        if (isGameActive) setGameActive(isGameActive)
-    }, gameFound ? null : SEARCH_FREQUENCY)
-
-    console.log('gameFound: ', gameFound)
+    useInterval(() => {
+        const search = async () => {
+            console.log('searching for game')
+            const gameData = await searchGame()
+            if (gameData.ok) setGameActive(isGameActive)
+            if (isGameActive) setGame({ found: true, data: gameData })
+        }
+        search()
+    }, game.found ? null : SEARCH_FREQUENCY)
 
     return (
         <Container>
-            {gameFound ?
-                <p>Collecting information about your ongoing match, hold tight!</p>
+            {game.found ?
+                <p>{game.data.PlayerName} vs {game.data.OpponentName}</p>
                 :
                 <p>Leave this screen open as you search for a match. Once the game starts your data will be automatically shown here</p>
             }
