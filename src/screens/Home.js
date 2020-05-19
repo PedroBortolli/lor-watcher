@@ -2,32 +2,25 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
 import useInterval from '../hooks/useInterval'
-import { searchGame } from '../api/api'
-
-const SEARCH_FREQUENCY = 3000
+import { getGame } from '../api/api'
+import { SEARCH_FREQUENCY } from '../lib/constants'
+import { Redirect } from 'react-router-dom'
 
 const Home = () => {
     const [game, setGame] = useState({ found: false, data: {} })
 
     useInterval(() => {
-        const search = async () => {
-            console.log('searching for game')
-            const gameData = await searchGame()
+        const searchGame = async () => {
+            const gameData = await getGame()
             if (gameData.ok) setGame({ found: true, data: gameData.data })
         }
-        search()
+        searchGame()
     }, game.found ? null : SEARCH_FREQUENCY)
-
-    console.log(game.data, game.data['PlayerName'])
 
     return (
         <Container>
             {game.found ?
-                <Column>
-                    <div>{game.data.PlayerName}</div>
-                    <div>vs</div>
-                    <div>{game.data.OpponentName}</div>
-                </Column>
+                <Redirect to={{ pathname: '/game', state: { data: game.data }}} />
                 :
                 <p>Leave this screen open as you search for a match. Once the game starts your data will be automatically shown here</p>
             }
@@ -49,9 +42,4 @@ const Container = styled.div`
     > p {
         text-align: center;
     }
-`
-const Column = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 `

@@ -88,11 +88,13 @@
     "@babel/runtime": "^7.9.6",
     "axios": "^0.19.2",
     "babel-loader": "^8.1.0",
+    "electron-json-storage": "^4.1.8",
     "electron-squirrel-startup": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hot-loader": "^4.12.21",
     "react-router-dom": "^5.2.0",
+    "runeterra": "^0.1.0",
     "styled-components": "^5.1.0"
   }
 }
