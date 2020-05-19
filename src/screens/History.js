@@ -7,7 +7,7 @@ const History = () => {
     const [history, setHistory] = useState([])
     useEffect(() => {
         storage.get('history', (err, history) => {
-            if (!err) setHistory(history)
+            if (!err && history) setHistory(history)
         })
     })
 
