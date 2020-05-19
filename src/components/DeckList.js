@@ -8,7 +8,6 @@ const DeckList = ({ deckCode, cardsDrawn, cardsSet }) => {
 
     useEffect(() => {
         const staticDeck = getDeckCards(deckCode)
-        let cardsRemaining = 0
         setDeck(staticDeck.reduce((tot, card) => {
             let seen = 0
             cardsDrawn.forEach(cardDrawn => {
@@ -16,27 +15,40 @@ const DeckList = ({ deckCode, cardsDrawn, cardsSet }) => {
             })
             const count = card.count - seen
             if (count > 0) {
-                cardsRemaining += count
                 const cardInfo = cardsSet.find(c => c.cardCode === card.code)
                 if (cardInfo) tot.push({ count, name: cardInfo.name, code: cardInfo.cardCode, cost: cardInfo.cost })
             }
             return tot
-        }, []))
+        }, []).sort((a, b) => a.cost < b.cost ? -1 : 1) )
     }, [cardsDrawn, cardsSet])
 
-    //console.log(deck)
     return useMemo(() => (
-        <div>
-            {console.log('criando a div aqui o')}
+        <Container>
             {deck.map(card => (
-                <div>
-                    <span>{card.name}</span> &nbsp; &nbsp; 
-                    <span>x{card.count}</span> &nbsp; &nbsp; &nbsp; &nbsp; 
-                    <span>{card.cost}</span>
-                </div>
+                <Card key={card.name}>
+                    <div>
+                        <span>{card.cost}</span>
+                        <span>{card.name}</span>
+                    </div>
+                    <span>x{card.count}</span>
+                </Card>
             ))}
-        </div>
+        </Container>
     ), [deck])
 }
 
 export default hot(module)(DeckList)
+
+const Container = styled.div`
+    width: fill-available;
+    margin: 16px;
+`
+const Card = styled.div`
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    > div:first-child {
+        > span:first-child { margin-right: 8px }
+    }
+    padding: 4px 0;
+`

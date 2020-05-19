@@ -48,9 +48,11 @@ const Game = (props) => {
                     opponentRegions: getOppRegions(),
                     opponentChampions: getOppChampions(),
                     duration: timeElapsed,
-                    timestamp: + new Date()
+                    timestamp: + new Date(),
+                    opponentName: data.OpponentName
                 }
                 storage.get('history', (err, history) => {
+                    console.log('saved match to history... success: ', err)
                     if (!err) {
                         if (history) storage.set('history', [...history, gameResult], e => setGameActive(false))
                         else storage.set('history', [gameResult], e => setGameActive(false))
@@ -62,18 +64,21 @@ const Game = (props) => {
         const updateCards = async () => {
             const result = await getGame()
             const currentCards = result.data.Rectangles
+            let localPlayed = [], opponentPlayed = []
             currentCards.forEach(card => {
                 if (card.CardCode !== 'face') {
                     if (card.LocalPlayer) {
                         if (card.TopLeftY < 100 && !localCards.find(localCard => localCard.id === card.CardID))
-                            setLocalCards([...localCards, { id: card.CardID, code: card.CardCode }])
+                            localPlayed.push({ id: card.CardID, code: card.CardCode })
                     }
                     else {
                         if (!opponentCards.find(opponentCard => opponentCard.id === card.CardID))
-                            setOpponentCards([...opponentCards, { id: card.CardID, code: card.CardCode }])
+                            localPlayed.push({ id: card.CardID, code: card.CardCode })
                     }
                 }
             })
+            setLocalCards([...localCards, ...localPlayed])
+            setOpponentCards([...opponentCards, ...opponentPlayed])
         }
         getGameResult()
         updateCards()
@@ -82,10 +87,14 @@ const Game = (props) => {
     const gameTime = parse(timeElapsed)
     return gameActive ?
         <Column>
-            <div>{gameTime}</div>
-            <div>{data.PlayerName}</div>
-            <div>vs</div>
-            <div>{data.OpponentName}</div>
+            <Info>
+                <div>{gameTime}</div>
+                <Players>
+                    <span>{data.PlayerName}</span>
+                    <span>vs</span>
+                    <span>{data.OpponentName}</span>
+                </Players>
+            </Info>
             {localDeck && cardsSet && <DeckList deckCode={localDeck} cardsDrawn={localCards} cardsSet={cardsSet} />}
         </Column>
         :
@@ -98,4 +107,15 @@ const Column = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 8px;
+`
+const Info = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+const Players = styled.div`
+    display: flex;
+    font-size: 18px;
+    > span:nth-child(2) { margin: 0 6px }
 `
