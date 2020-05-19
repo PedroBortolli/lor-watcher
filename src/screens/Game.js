@@ -55,6 +55,7 @@ const Game = (props) => {
                         if (history) storage.set('history', [...history, gameResult], e => setGameActive(false))
                         else storage.set('history', [gameResult], e => setGameActive(false))
                     }
+                    else setGameActive(false)
                 })
             }
         }
