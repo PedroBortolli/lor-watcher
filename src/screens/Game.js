@@ -52,9 +52,9 @@ const Game = (props) => {
                     opponentName: data.OpponentName
                 }
                 storage.get('history', (err, history) => {
-                    console.log('saved match to history... success: ', err)
+                    console.log('saving match to history')
                     if (!err) {
-                        if (history) storage.set('history', [...history, gameResult], e => setGameActive(false))
+                        if (history && history instanceof Array) storage.set('history', [...history, gameResult], e => setGameActive(false))
                         else storage.set('history', [gameResult], e => setGameActive(false))
                     }
                     else setGameActive(false)
