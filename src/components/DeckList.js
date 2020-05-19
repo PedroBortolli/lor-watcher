@@ -1,32 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
 import { getDeckCards } from '../lib/local'
 
 const DeckList = ({ deckCode, cardsDrawn, cardsSet }) => {
-    const deck = getDeckCards(deckCode)
+    const [deck, setDeck] = useState([])
 
-    let cardsRemaining = 0
-    const remainingDeck = deck.reduce((tot, card) => {
-        let seen = 0
-        cardsDrawn.forEach(cardDrawn => {
-            if (cardDrawn.code === card.code) seen++
-        })
-        const count = card.count - seen
-        if (count > 0) {
-            cardsRemaining += count
-            const cardInfo = cardsSet.find(c => c.cardCode === card.code)
-            console.log(cardInfo)
-            tot.push({ count, name: cardInfo.name, code: cardInfo.cardCode, cost: cardInfo.cost })
-        }
-        return tot
-    }, [])
+    useEffect(() => {
+        const staticDeck = getDeckCards(deckCode)
+        let cardsRemaining = 0
+        setDeck(staticDeck.reduce((tot, card) => {
+            let seen = 0
+            cardsDrawn.forEach(cardDrawn => {
+                if (cardDrawn.code === card.code) seen++
+            })
+            const count = card.count - seen
+            if (count > 0) {
+                cardsRemaining += count
+                const cardInfo = cardsSet.find(c => c.cardCode === card.code)
+                if (cardInfo) tot.push({ count, name: cardInfo.name, code: cardInfo.cardCode, cost: cardInfo.cost })
+            }
+            return tot
+        }, []))
+    }, [cardsDrawn, cardsSet])
 
-    console.log(cardsRemaining, remainingDeck)
-
-    return (
+    //console.log(deck)
+    return useMemo(() => (
         <div>
-            {remainingDeck.map(card => (
+            {console.log('criando a div aqui o')}
+            {deck.map(card => (
                 <div>
                     <span>{card.name}</span> &nbsp; &nbsp; 
                     <span>x{card.count}</span> &nbsp; &nbsp; &nbsp; &nbsp; 
@@ -34,7 +36,7 @@ const DeckList = ({ deckCode, cardsDrawn, cardsSet }) => {
                 </div>
             ))}
         </div>
-    )
+    ), [deck])
 }
 
 export default hot(module)(DeckList)
