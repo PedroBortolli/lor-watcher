@@ -7,6 +7,7 @@ import { UPDATE_FREQUENCY } from '../lib/constants'
 import { Redirect, withRouter } from 'react-router-dom'
 import storage from 'electron-json-storage'
 import { getOppRegions, getOppChampions } from '../lib/opponent'
+import { parse } from '../lib/timeParser'
 
 const Game = (props) => {
     const [gameId, setGameId] = useState(-100000)
@@ -77,11 +78,7 @@ const Game = (props) => {
         updateCards()
     }, UPDATE_FREQUENCY)
 
-
-    const minutesElapsed = Math.floor(timeElapsed / 60)
-    const secondsElapsed = timeElapsed % 60
-    const gameTime = `${minutesElapsed > 9 ? '' : '0'}${minutesElapsed}:${secondsElapsed > 9 ? '' : '0'}${secondsElapsed}`
-
+    const gameTime = parse(timeElapsed)
     return gameActive ?
         <Column>
             <div>{gameTime}</div>
