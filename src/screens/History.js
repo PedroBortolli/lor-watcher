@@ -13,10 +13,11 @@ const History = () => {
 
     return (
         <div>
-            {history.map(game => <div style={{marginBottom: 36}}>
+            {history.map(game => <div key={game.timestamp} style={{marginBottom: 36}}>
                 <div>{game.won ? 'Victory' : 'Defeat'}</div>
                 <div>{game.deck}</div>
                 <div>{game.duration} seconds</div>
+                <div>{game.opponentName}</div>
                 <div>{`${new Date(game.timestamp)}`}</div>
             </div>)}
         </div>

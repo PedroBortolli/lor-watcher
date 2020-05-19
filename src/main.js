@@ -9,8 +9,12 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 800, //400
+    height: 900, //800
+    //maxWidth: 600,
+    //maxHeight: 900,
+    //minWidth: 200,
+    //minHeight: 400,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false
@@ -20,6 +24,7 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  //mainWindow.setAlwaysOnTop(true, 'screen');
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();

@@ -1,40 +1,54 @@
-import React from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
 import { getDeckCards } from '../lib/local'
 
 const DeckList = ({ deckCode, cardsDrawn, cardsSet }) => {
-    const deck = getDeckCards(deckCode)
+    const [deck, setDeck] = useState([])
 
-    let cardsRemaining = 0
-    const remainingDeck = deck.reduce((tot, card) => {
-        let seen = 0
-        cardsDrawn.forEach(cardDrawn => {
-            if (cardDrawn.code === card.code) seen++
-        })
-        const count = card.count - seen
-        if (count > 0) {
-            cardsRemaining += count
-            const cardInfo = cardsSet.find(c => c.cardCode === card.code)
-            console.log(cardInfo)
-            tot.push({ count, name: cardInfo.name, code: cardInfo.cardCode, cost: cardInfo.cost })
-        }
-        return tot
-    }, [])
+    useEffect(() => {
+        const staticDeck = getDeckCards(deckCode)
+        setDeck(staticDeck.reduce((tot, card) => {
+            let seen = 0
+            cardsDrawn.forEach(cardDrawn => {
+                if (cardDrawn.code === card.code) seen++
+            })
+            const count = card.count - seen
+            if (count > 0) {
+                const cardInfo = cardsSet.find(c => c.cardCode === card.code)
+                if (cardInfo) tot.push({ count, name: cardInfo.name, code: cardInfo.cardCode, cost: cardInfo.cost })
+            }
+            return tot
+        }, []).sort((a, b) => a.cost < b.cost ? -1 : 1) )
+    }, [cardsDrawn, cardsSet])
 
-    console.log(cardsRemaining, remainingDeck)
-
-    return (
-        <div>
-            {remainingDeck.map(card => (
-                <div>
-                    <span>{card.name}</span> &nbsp; &nbsp; 
-                    <span>x{card.count}</span> &nbsp; &nbsp; &nbsp; &nbsp; 
-                    <span>{card.cost}</span>
-                </div>
+    return useMemo(() => (
+        <Container>
+            {deck.map(card => (
+                <Card key={card.name}>
+                    <div>
+                        <span>{card.cost}</span>
+                        <span>{card.name}</span>
+                    </div>
+                    <span>x{card.count}</span>
+                </Card>
             ))}
-        </div>
-    )
+        </Container>
+    ), [deck])
 }
 
 export default hot(module)(DeckList)
+
+const Container = styled.div`
+    width: fill-available;
+    margin: 16px;
+`
+const Card = styled.div`
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    > div:first-child {
+        > span:first-child { margin-right: 8px }
+    }
+    padding: 4px 0;
+`
