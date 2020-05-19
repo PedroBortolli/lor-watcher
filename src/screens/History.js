@@ -13,7 +13,7 @@ const History = () => {
 
     return (
         <div>
-            {history instanceof Array && history.map(game => <div key={game.timestamp} style={{marginBottom: 36}}>
+            {history && history instanceof Array && history.map(game => <div key={game.timestamp} style={{marginBottom: 36}}>
                 <div>{game.won ? 'Victory' : 'Defeat'}</div>
                 <div>{game.deck}</div>
                 <div>{game.duration} seconds</div>
