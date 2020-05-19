@@ -3,7 +3,9 @@ import styled from 'styled-components'
 import { getResult, getCards, getGame } from '../api/api'
 import useInterval from '../hooks/useInterval'
 import { UPDATE_FREQUENCY } from '../lib/constants'
-import { withRouter } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
+import storage from 'electron-json-storage'
+import { getOppRegions, getOppChampions } from '../lib/opponent'
 
 const Game = (props) => {
     const [gameId, setGameId] = useState(-100000)
@@ -12,6 +14,7 @@ const Game = (props) => {
     const [cardsSet, setCardsSet] = useState([])
     const [localCards, setLocalCards] = useState([])
     const [opponentCards, setOpponentCards] = useState([])
+    const [localDeck, setLocalDeck] = useState('')
     const data = props.location.state.data
 
     useEffect(() => {
@@ -23,8 +26,12 @@ const Game = (props) => {
             const cards = await getCards()
             setCardsSet(cards)
         }
+        const getLocalDeck = async () => {
+            // TODO: /static-decklist endpoint
+        }
         getGameID()
         getSet()
+        getLocalDeck()
     }, [])
 
     useInterval(() => updateTime(prevTime => prevTime + 1), 1000)
@@ -32,9 +39,20 @@ const Game = (props) => {
         const getGameResult = async () => {
             const result = await getResult()
             if (gameId > -1 && result.data.GameID === gameId) {
-                // game finished - TODO: persist result
-                console.log('Game finished: ', result.data)
-                setGameActive(false)
+                const gameResult = {
+                    won: result.data.LocalPlayerWon,
+                    deck: localDeck,
+                    opponentRegions: getOppRegions(),
+                    opponentChampions: getOppChampions(),
+                    duration: timeElapsed,
+                    timestamp: + new Date()
+                }
+                storage.get('history', (err, history) => {
+                    if (!err) {
+                        if (history) storage.set('history', [...history, gameResult], e => setGameActive(false))
+                        else storage.set('history', [gameResult], e => setGameActive(false))
+                    }
+                })
             }
         }
         const updateCards = async () => {
@@ -43,12 +61,12 @@ const Game = (props) => {
             currentCards.forEach(card => {
                 if (card.CardCode !== 'face') {
                     if (card.LocalPlayer) {
-                        const found = localCards.find(localCard => localCard.id === card.CardID)
-                        if (!found) setLocalCards([...localCards, { id: card.CardID, code: card.CardCode }])
+                        if (!localCards.find(localCard => localCard.id === card.CardID))
+                            setLocalCards([...localCards, { id: card.CardID, code: card.CardCode }])
                     }
                     else {
                         if (!opponentCards.find(opponentCard => opponentCard.id === card.CardID))
-                        setOpponentCards([...opponentCards, { id: card.CardID, code: card.CardCode }])
+                            setOpponentCards([...opponentCards, { id: card.CardID, code: card.CardCode }])
                     }
                 }
             })
