@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { cards } from '../lib/cards'
 
-const URL = 'http://ffad2c21.ngrok.io'
+const URL = 'http://localhost:21337'
 
 const getGame = async () => {
     const response = await axios.get(`${URL}/positional-rectangles`)
