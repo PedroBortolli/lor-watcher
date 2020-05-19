@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import Home from './screens/Home'
 import Decks from './screens/Decks'
 import Game from './screens/Game'
+import History from './screens/History'
 import { HashRouter as Router, Switch, Route, Link, browserHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -11,6 +12,7 @@ const App = () => <>
         <Router history={browserHistory}>
             <Link to="/">Home</Link>
             <Link to="/decks">Decks</Link>
+            <Link to="/history">History</Link>
         </Router>
     </NavBar>
     <Container>
@@ -21,6 +23,9 @@ const App = () => <>
                 </Route>
                 <Route path="/game">
                     <Game />
+                </Route>
+                <Route path="/history">
+                    <History />
                 </Route>
                 <Route path="/">
                     <Home />

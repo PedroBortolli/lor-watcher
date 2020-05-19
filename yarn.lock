@@ -6135,6 +6135,11 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
+runeterra@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/runeterra/-/runeterra-0.1.0.tgz#f0ccfe80a7eefa76aaa11fc1860f90545dd82a0f"
+  integrity sha512-FklB1GTZ6DZgzeg/265gqFk1OI16vJmEohdjGXQQctMC8TgjdQXWYaovGcRBM03TXEcZRXLgPICJKJueyK+R7g==
+
 rxjs@^6.3.1, rxjs@^6.5.3:
   version "6.5.5"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.5.tgz#c5c884e3094c8cfee31bf27eb87e54ccfc87f9ec"

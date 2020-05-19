@@ -1,14 +1,21 @@
 import axios from 'axios'
 import { cards } from '../lib/cards'
 
+const URL = 'http://ffad2c21.ngrok.io'
+
 const getGame = async () => {
-    const response = await axios.get('http://b053375c.ngrok.io/positional-rectangles')
+    const response = await axios.get(`${URL}/positional-rectangles`)
     if (response.data.PlayerName) return { ok: true, data: response.data }
     return { ok: false }
 }
 
 const getResult = async () => {
-    const response = await axios.get('http://b053375c.ngrok.io/game-result')
+    const response = await axios.get(`${URL}/game-result`)
+    return response
+}
+
+const getDeck = async () => {
+    const response = await axios.get(`${URL}/static-decklist`)
     return response
 }
 
@@ -18,4 +25,4 @@ const getCards = async () => {
     return response.data
 }
 
-export { getGame, getResult, getCards }
+export { getGame, getResult, getDeck, getCards }

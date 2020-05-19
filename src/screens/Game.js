@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { getResult, getCards, getGame } from '../api/api'
+import { getResult, getCards, getGame, getDeck } from '../api/api'
 import useInterval from '../hooks/useInterval'
+import DeckList from '../components/DeckList'
 import { UPDATE_FREQUENCY } from '../lib/constants'
 import { Redirect, withRouter } from 'react-router-dom'
 import storage from 'electron-json-storage'
@@ -27,7 +28,8 @@ const Game = (props) => {
             setCardsSet(cards)
         }
         const getLocalDeck = async () => {
-            // TODO: /static-decklist endpoint
+            const deck = await getDeck()
+            setLocalDeck(deck.data.DeckCode)
         }
         getGameID()
         getSet()
@@ -61,7 +63,7 @@ const Game = (props) => {
             currentCards.forEach(card => {
                 if (card.CardCode !== 'face') {
                     if (card.LocalPlayer) {
-                        if (!localCards.find(localCard => localCard.id === card.CardID))
+                        if (card.TopLeftY < 100 && !localCards.find(localCard => localCard.id === card.CardID))
                             setLocalCards([...localCards, { id: card.CardID, code: card.CardCode }])
                     }
                     else {
@@ -86,6 +88,7 @@ const Game = (props) => {
             <div>{data.PlayerName}</div>
             <div>vs</div>
             <div>{data.OpponentName}</div>
+            {localDeck && cardsSet && <DeckList deckCode={localDeck} cardsDrawn={localCards} cardsSet={cardsSet} />}
         </Column>
         :
     <Redirect to="/home" />
