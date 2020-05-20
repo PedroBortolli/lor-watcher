@@ -14,6 +14,13 @@ module.exports = [
       },
     },
   },
+  {
+    test: /\.(jpe?g|png|webp)$/i,
+    loaders: [
+      'file-loader',
+      'webp-loader'
+    ]
+  }
   // Put your webpack loader rules in this array.  This is where you would put
   // your ts-loader configuration for instance:
   /**

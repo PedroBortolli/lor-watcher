@@ -41,15 +41,19 @@ const NavBar = styled.div`
     align-items: center;
     padding: 0 12px;
     user-select: none;
-    background: #001b85;
+    background-color: #132b66;
+    border-bottom: 1.5px solid black;
     > a {
-       :not(:last-child) { margin-right: 16px }
+       :not(:last-child) { margin-right: 24px }
         color: white;
+        font-size: 18px;
         text-decoration: none;
+        text-shadow: #000 0px 0px 2px, #000 0px 0px 2px, #000 0px 0px 2px, #000 0px 0px 2px, #000 0px 0px 2px, #000 0px 0px 2px;
     }
 `
 const Container = styled.div`
-    height: calc(100% - 32px);
+    background-color: #042b40;
+    height: calc(100% - 33.5px);
 `
 
 ReactDOM.render(<App />, document.getElementById('root'))
