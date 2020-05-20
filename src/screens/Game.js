@@ -4,20 +4,17 @@ import { getResult, getCards, getGame, getDeck } from '../api/api'
 import useInterval from '../hooks/useInterval'
 import DeckList from '../components/DeckList'
 import { UPDATE_FREQUENCY } from '../lib/constants'
-import { Redirect, withRouter } from 'react-router-dom'
 import storage from 'electron-json-storage'
 import { getOppRegions, getOppChampions } from '../lib/opponent'
-import { parse } from '../lib/timeParser'
+import { hot } from 'react-hot-loader'
 
-const Game = (props) => {
+const Game = ({ data, timeElapsed }) => {
     const [gameId, setGameId] = useState(-100000)
-    const [timeElapsed, updateTime] = useState(0) // time elapsed of a game in seconds
     const [gameActive, setGameActive] = useState(true)
     const [cardsSet, setCardsSet] = useState([])
     const [localCards, setLocalCards] = useState([])
     const [opponentCards, setOpponentCards] = useState([])
     const [localDeck, setLocalDeck] = useState('')
-    const data = props.location.state.data
 
     useEffect(() => {
         const getGameID = async () => {
@@ -84,7 +81,6 @@ const Game = (props) => {
         updateCards()
     }, UPDATE_FREQUENCY)
 
-    const gameTime = parse(timeElapsed)
     return gameActive ?
         <Column>
             <Info>
@@ -101,7 +97,7 @@ const Game = (props) => {
     <Redirect to="/home" />
 }
 
-export default withRouter(Game)
+export default hot(module)(Game)
 
 const Column = styled.div`
     display: flex;
