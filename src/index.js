@@ -6,11 +6,13 @@ import Game from './screens/Game'
 import History from './screens/History'
 import { HashRouter as Router, Switch, Route, Link, browserHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import Logo from './assets/logo.png'
 
 const App = () => <>
     <NavBar>
+        <img src={Logo} />
         <Router history={browserHistory}>
-            <Link to="/">Home</Link>
+            <Link to="/">Match</Link>
             <Link to="/decks">Decks</Link>
             <Link to="/history">History</Link>
         </Router>
@@ -39,17 +41,26 @@ const NavBar = styled.div`
     height: 32px;
     display: flex;
     align-items: center;
-    padding: 0 12px;
+    padding: 0 8px;
     user-select: none;
-    background: #001b85;
+    background-color: #132b66;
+    border-bottom: 1.5px solid black;
+    > img {
+        height: 28px;
+        width: 28px;
+    }
     > a {
-       :not(:last-child) { margin-right: 16px }
+        margin-left: 24px;
+        :nth-child(2) { margin-left: 20px }
         color: white;
+        font-size: 18px;
         text-decoration: none;
+        text-shadow: #000 0px 0px 2px, #000 0px 0px 2px, #000 0px 0px 2px, #000 0px 0px 2px, #000 0px 0px 2px, #000 0px 0px 2px;
     }
 `
 const Container = styled.div`
-    height: calc(100% - 32px);
+    background-color: #042b40;
+    height: calc(100% - 33.5px);
 `
 
 ReactDOM.render(<App />, document.getElementById('root'))

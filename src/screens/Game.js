@@ -113,6 +113,8 @@ const Info = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: white;
+    user-select: none;
 `
 const Players = styled.div`
     display: flex;
