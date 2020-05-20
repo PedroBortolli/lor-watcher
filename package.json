@@ -18,7 +18,9 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "./src/assets/logo.png"
+      },
       "make_targets": {
         "win32": [
           "squirrel"
