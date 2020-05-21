@@ -3,7 +3,7 @@ const rules = require('./webpack.rules');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const assets = ['data', 'images'];
+const assets = ['assets'];
 const copyPlugins = assets.map(asset => {
   return new CopyWebpackPlugin([
     { from: path.resolve(__dirname, 'src', asset), to: asset },
