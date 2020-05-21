@@ -22,5 +22,5 @@ const map = {
 
 export const renderIcon = region => {
     const icon = map[region]
-    return icon && <img src={icon} alt={region} title={region} />
+    return icon && <img key={region} src={icon} alt={region} title={region} />
 }

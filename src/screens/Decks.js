@@ -36,7 +36,7 @@ const Decks = () => {
             {orderedRecords.length > 0 && cardsSet.length > 0 && orderedRecords.map(record => {
                 if (record.code) {
                     const [regions, champions] = getRegionsChampions(getDeckCards(record.code), cardsSet)
-                    return <Card>
+                    return <Card key={record.code}>
                         <div className="name">{record.code.substr(0, 15) + '...'}</div>
                         <div className="winrate">
                             <span>W-L:</span>
