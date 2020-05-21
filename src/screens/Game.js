@@ -48,6 +48,7 @@ const Game = ({ data, timeElapsed }) => {
                     opponentRegions: oppRegions,
                     opponentChampions: oppChampions,
                     opponentName: data.OpponentName,
+                    localName: data.PlayerName,
                     localRegions: localRegions,
                     localChampions: localChampions,
                     duration: timeElapsed,
