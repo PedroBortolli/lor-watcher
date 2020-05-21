@@ -7,6 +7,7 @@ import { UPDATE_FREQUENCY } from '../lib/constants'
 import storage from 'electron-json-storage'
 import { getOppRegions, getOppChampions } from '../lib/opponent'
 import { hot } from 'react-hot-loader'
+import { parse } from '../lib/timeParser'
 
 const Game = ({ data, timeElapsed }) => {
     const [gameId, setGameId] = useState(-100000)
@@ -34,7 +35,6 @@ const Game = ({ data, timeElapsed }) => {
         getLocalDeck()
     }, [])
 
-    useInterval(() => updateTime(prevTime => prevTime + 1), 1000)
     useInterval(() => {
         const getGameResult = async () => {
             const result = await getResult()
@@ -81,10 +81,11 @@ const Game = ({ data, timeElapsed }) => {
         updateCards()
     }, UPDATE_FREQUENCY)
 
+    const gameTime = parse(timeElapsed)
     return gameActive ?
         <Column>
             <Info>
-                <div>{gameTime}</div>
+                <span>{gameTime}</span>
                 <Players>
                     <span>{data.PlayerName}</span>
                     <span>vs</span>
@@ -104,6 +105,7 @@ const Column = styled.div`
     flex-direction: column;
     align-items: center;
     padding-top: 8px;
+    height: fill-available;
 `
 const Info = styled.div`
     display: flex;
