@@ -4,20 +4,19 @@ import { getResult, getCards, getGame, getDeck } from '../api/api'
 import useInterval from '../hooks/useInterval'
 import DeckList from '../components/DeckList'
 import { UPDATE_FREQUENCY } from '../lib/constants'
-import { Redirect, withRouter } from 'react-router-dom'
 import storage from 'electron-json-storage'
-import { getOppRegions, getOppChampions } from '../lib/opponent'
+import { getOppRegions } from '../lib/deck'
+import { hot } from 'react-hot-loader'
 import { parse } from '../lib/timeParser'
+import { getDeckCards } from '../lib/local'
 
-const Game = (props) => {
+const Game = ({ data, timeElapsed }) => {
     const [gameId, setGameId] = useState(-100000)
-    const [timeElapsed, updateTime] = useState(0) // time elapsed of a game in seconds
     const [gameActive, setGameActive] = useState(true)
     const [cardsSet, setCardsSet] = useState([])
     const [localCards, setLocalCards] = useState([])
     const [opponentCards, setOpponentCards] = useState([])
     const [localDeck, setLocalDeck] = useState('')
-    const data = props.location.state.data
 
     useEffect(() => {
         const getGameID = async () => {
@@ -37,19 +36,23 @@ const Game = (props) => {
         getLocalDeck()
     }, [])
 
-    useInterval(() => updateTime(prevTime => prevTime + 1), 1000)
     useInterval(() => {
         const getGameResult = async () => {
             const result = await getResult()
             if (gameId > -1 && result.data.GameID === gameId) {
+                const [localRegions, localChampions] = getRegionsChampions(getDeckCards(localDeck), cardsSet)
+                const [oppRegions, oppChampions] = getRegionsChampions(opponentPlayed, cardSet)
                 const gameResult = {
                     won: result.data.LocalPlayerWon,
                     deck: localDeck,
-                    opponentRegions: getOppRegions(),
-                    opponentChampions: getOppChampions(),
+                    opponentRegions: oppRegions,
+                    opponentChampions: oppChampions,
+                    opponentName: data.OpponentName,
+                    localName: data.PlayerName,
+                    localRegions: localRegions,
+                    localChampions: localChampions,
                     duration: timeElapsed,
-                    timestamp: + new Date(),
-                    opponentName: data.OpponentName
+                    timestamp: + new Date()
                 }
                 storage.get('history', (err, history) => {
                     console.log('saving match to history')
@@ -73,7 +76,7 @@ const Game = (props) => {
                     }
                     else {
                         if (!opponentCards.find(opponentCard => opponentCard.id === card.CardID))
-                            localPlayed.push({ id: card.CardID, code: card.CardCode })
+                            opponentPlayed.push({ id: card.CardID, code: card.CardCode })
                     }
                 }
             })
@@ -88,7 +91,7 @@ const Game = (props) => {
     return gameActive ?
         <Column>
             <Info>
-                <div>{gameTime}</div>
+                <span>{gameTime}</span>
                 <Players>
                     <span>{data.PlayerName}</span>
                     <span>vs</span>
@@ -101,13 +104,14 @@ const Game = (props) => {
     <Redirect to="/home" />
 }
 
-export default withRouter(Game)
+export default hot(module)(Game)
 
 const Column = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 8px;
+    height: fill-available;
 `
 const Info = styled.div`
     display: flex;

@@ -26,7 +26,6 @@ const DeckList = ({ deckCode, cardsDrawn, cardsSet }) => {
         }, []).sort((a, b) => a.cost < b.cost ? -1 : 1), backgrounds: imgs} )
     }, [cardsDrawn, cardsSet])
 
-
     return useMemo(() => (
         <Container>
             {deck.cards.map(card => (
