@@ -33,14 +33,9 @@ const History = () => {
             {history && cardsSet.length > 0 && history.map(game => {
                 if (game && game.deck) {
                     const [localRegions, localChampions] = getRegionsChampions(getDeckCards(game.deck), cardsSet)
-                    console.log(game)
                     return <Match className={game.won ? 'victory' : 'defeat'} key={game.timestamp}>
                         <div className="result">{game.won ? 'Victory' : 'Defeat'}</div>
-                        {//<div>{game.deck}</div>
-                        }
                         <div className="time" title="Match time">{parse(game.duration)}</div>
-                        {//<div className="opponent">vs {game.opponentName || 'n/a'}</div>
-                        }
                         <div className="date">{moment(game.timestamp).format('MMMM DD, YYYY - hh:mm A')}</div>
                         <div className="rl">{localRegions.map(region => renderIcon(region))}</div>
                         <div className="ro">{game.opponentRegions.map(region => renderIcon(region))}</div>

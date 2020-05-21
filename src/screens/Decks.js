@@ -67,7 +67,7 @@ const Card = styled.div`
     background-color: #132b66;
     border: 2px solid #132b66;
     border-radius: 4px;
-    width: fill-available;
+    width: 300px;
     margin: 0 10px 32px;
     display: grid;
     grid-template-areas: "name regions"

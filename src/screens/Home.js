@@ -65,7 +65,7 @@ const Home = () => {
 export default hot(module)(Home)
 
 const Container = styled.div`
-    width: 320px;
+    width: 100%;
     color: black;
     font-size: 20px;
     display: flex;
@@ -74,6 +74,7 @@ const Container = styled.div`
     height: 100%;
     > p {
         text-align: center;
+        padding: 0 8px;
     }
 `
 const NavBar = styled.div`
