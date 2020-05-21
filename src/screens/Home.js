@@ -21,7 +21,6 @@ const Home = () => {
 
     useInterval(() => {
         const searchGame = async () => {
-            console.log('procurando')
             const gameData = await getGame()
             if (gameData.ok) setGame({ found: true, data: gameData.data })
             //if (gameData.ok && gameData.data.Rectangles.length === 0) setGame({ found: true, data: gameData.data })
