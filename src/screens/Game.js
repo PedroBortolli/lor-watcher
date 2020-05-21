@@ -5,9 +5,10 @@ import useInterval from '../hooks/useInterval'
 import DeckList from '../components/DeckList'
 import { UPDATE_FREQUENCY } from '../lib/constants'
 import storage from 'electron-json-storage'
-import { getOppRegions, getOppChampions } from '../lib/opponent'
+import { getOppRegions } from '../lib/deck'
 import { hot } from 'react-hot-loader'
 import { parse } from '../lib/timeParser'
+import { getDeckCards } from '../lib/local'
 
 const Game = ({ data, timeElapsed }) => {
     const [gameId, setGameId] = useState(-100000)
@@ -39,14 +40,18 @@ const Game = ({ data, timeElapsed }) => {
         const getGameResult = async () => {
             const result = await getResult()
             if (gameId > -1 && result.data.GameID === gameId) {
+                const [localRegions, localChampions] = getRegionsChampions(getDeckCards(localDeck), cardsSet)
+                const [oppRegions, oppChampions] = getRegionsChampions(opponentPlayed, cardSet)
                 const gameResult = {
                     won: result.data.LocalPlayerWon,
                     deck: localDeck,
-                    opponentRegions: getOppRegions(),
-                    opponentChampions: getOppChampions(),
+                    opponentRegions: oppRegions,
+                    opponentChampions: oppChampions,
+                    opponentName: data.OpponentName,
+                    localRegions: localRegions,
+                    localChampions: localChampions,
                     duration: timeElapsed,
-                    timestamp: + new Date(),
-                    opponentName: data.OpponentName
+                    timestamp: + new Date()
                 }
                 storage.get('history', (err, history) => {
                     console.log('saving match to history')
@@ -70,7 +75,7 @@ const Game = ({ data, timeElapsed }) => {
                     }
                     else {
                         if (!opponentCards.find(opponentCard => opponentCard.id === card.CardID))
-                            localPlayed.push({ id: card.CardID, code: card.CardCode })
+                            opponentPlayed.push({ id: card.CardID, code: card.CardCode })
                     }
                 }
             })

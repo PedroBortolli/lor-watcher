@@ -72,7 +72,6 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     height: 100%;
-    padding: 0px 8px;
     > p {
         text-align: center;
     }

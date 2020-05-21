@@ -11,6 +11,7 @@ const Container = styled.div`
     position: fixed;
     top: 33.5px;
     left: 0;
+    > * { color: white }
 `
 
 ReactDOM.render(<Container><Home /></Container>, document.getElementById('root'))
