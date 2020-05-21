@@ -5,6 +5,7 @@ import storage from 'electron-json-storage'
 import { getRegionsChampions } from '../lib/deck'
 import { getDeckCards } from '../lib/local'
 import { getCards } from '../api/api'
+import { renderIcon } from '../components/RegionIcon'
 
 const Decks = () => {
     const [orderedRecords, setRecords] = useState([])
@@ -31,14 +32,18 @@ const Decks = () => {
     }, [])
     return (
         <Container>
+            <h2>Decks</h2>
             {orderedRecords.length > 0 && cardsSet.length > 0 && orderedRecords.map(record => {
                 if (record.code) {
                     const [regions, champions] = getRegionsChampions(getDeckCards(record.code), cardsSet)
-                    //console.log(regions, champions)
                     return <Card>
-                        <div>{record.code.substr(0, 10) + '...'}</div>
-                        <div>{record.wins}/{record.losses}</div>
-                        <div>{regions.map(region => <span>{region}</span>)}</div>
+                        <div className="name">{record.code.substr(0, 15) + '...'}</div>
+                        <div className="winrate">
+                            <span>W-L:</span>
+                            <span>{record.wins}-{record.losses}</span>
+                            <span>({Number(record.wins / (record.wins + record.losses) * 100).toFixed(1)}%)</span>
+                        </div>
+                        <div className="regions">{regions.map(region => renderIcon(region))}</div>
                     </Card>
                 }
                 return null
@@ -59,8 +64,48 @@ const Container = styled.div`
     font-size: 16px;
 `
 const Card = styled.div`
+    background-color: #132b66;
     border: 2px solid #132b66;
     border-radius: 4px;
     width: fill-available;
-    margin: 0 8px 32px;
+    margin: 0 10px 32px;
+    display: grid;
+    grid-template-areas: "name regions"
+                         "winrate regions";
+    grid-template-columns: 200px 100px;
+    grid-template-rows: 32px 32px;
+    .name {
+        grid-area: name;
+        display: flex;
+        align-items: flex-start;
+        padding-top: 8px;
+        padding-left: 16px;
+    }
+    .winrate {
+        grid-area: winrate;
+        display: flex;
+        align-items: flex-end;
+        padding-left: 16px;
+        padding-bottom: 8px;
+        font-size: 14px;
+        > :nth-child(1) { font-style: italic }
+        > :nth-child(2) {
+            margin: 0 8px;
+            font-weight: bold;
+        }
+        > :nth-child(3) { }
+    }
+    .regions {
+        grid-area: regions;
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding-right: 16px;
+        right: 0px;
+        > img {
+            width: 36px;
+            height: 36px;
+        }
+    }
 `
