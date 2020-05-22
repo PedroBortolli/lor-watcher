@@ -23,8 +23,7 @@ const Home = () => {
         const searchGame = async () => {
             console.log('procurando')
             const gameData = await getGame()
-            if (gameData.ok) setGame({ found: true, data: gameData.data })
-            //if (gameData.ok && gameData.data.Rectangles.length === 0) setGame({ found: true, data: gameData.data })
+            if (gameData.ok && gameData.data.Rectangles.length === 0) setGame({ found: true, data: gameData.data })
         }
         searchGame()
     }, game.found ? null : SEARCH_FREQUENCY)

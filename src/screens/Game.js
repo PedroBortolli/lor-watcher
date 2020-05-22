@@ -71,7 +71,7 @@ const Game = ({ data, timeElapsed }) => {
             currentCards.forEach(card => {
                 if (card.CardCode !== 'face') {
                     if (card.LocalPlayer) {
-                        if (card.TopLeftY < 100 && !localCards.find(localCard => localCard.id === card.CardID))
+                        if (!localCards.find(localCard => localCard.id === card.CardID))
                             localPlayed.push({ id: card.CardID, code: card.CardCode })
                     }
                     else {
