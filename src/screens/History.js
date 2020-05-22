@@ -22,8 +22,7 @@ const History = () => {
         }
         storage.get('history', (err, history) => {
             if (!err && history && history instanceof Array) {
-                const foo = history.sort((a, b) => a.timestamp < b.timestamp ? 1 : -1)
-                setHistory([...foo, ...foo])
+                setHistory(history.sort((a, b) => a.timestamp < b.timestamp ? 1 : -1))
             }
             getSet()
         })
