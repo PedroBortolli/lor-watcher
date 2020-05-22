@@ -19,7 +19,7 @@ const DeckList = ({ deckCode, cardsDrawn, cardsSet }) => {
                 const cardInfo = cardsSet.find(c => c.cardCode === card.code)
                 if (cardInfo) {
                     tot.push({ count, name: cardInfo.name, code: cardInfo.cardCode, cost: cardInfo.cost })
-                    imgs[cardInfo.cardCode] = require(`../assets/${cardInfo.cardCode}.webp`)
+                    imgs[cardInfo.cardCode] = require(`../assets/${cardInfo.cardCode}.jpg`)
                 }
             }
             return tot
