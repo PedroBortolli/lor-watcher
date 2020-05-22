@@ -98,7 +98,6 @@ const Game = ({ data, timeElapsed }) => {
                     <span>{data.OpponentName}</span>
                 </Players>
             </Info>
-            <DeckList deckCode="CEBQCAQEBABACBA3GQDACBI5EEUDENJWAMAQEBAGAEAQIMADAECQCMJYAIAQCBA7AIAQKDYZ" cardsDrawn={localCards} cardsSet={cardsSet} />
             {localDeck && cardsSet && <DeckList deckCode={localDeck} cardsDrawn={localCards} cardsSet={cardsSet} />}
         </Column>
         :

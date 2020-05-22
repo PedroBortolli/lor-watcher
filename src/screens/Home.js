@@ -9,6 +9,7 @@ import History from './History'
 import Logo from '../assets/logo.png'
 import Game from './Game'
 import { parse } from '../lib/timeParser'
+import search from '../assets/search.png'
 
 const Home = () => {
     const [game, setGame] = useState({ found: false, data: {} })
@@ -51,12 +52,18 @@ const Home = () => {
              tab === 'history' ?
                 <History />
             :
-             !game.found ?
+             game.found ?
                 <Game data={game.data} timeElapsed={timeElapsed} />
             :
-                <p>
-                    Leave this screen open as you search for a match. Once the game starts your data will be automatically shown here
-                </p>
+                <Column>
+                    <img style={{width: 144, height: 144}} src={search} />
+                    <p>
+                        Leave the app open as you search for a match. Once the game starts the cards from your deck will be automatically shown here!
+                    </p>
+                    <p>
+                        Feel free to navigate in the other tabs too
+                    </p>
+                </Column>
             }
         </Container>
     </>
@@ -72,10 +79,6 @@ const Container = styled.div`
     justify-content: flex-start;
     align-items: center;
     height: 100%;
-    > p {
-        text-align: center;
-        padding: 0 8px;
-    }
 `
 const NavBar = styled.div`
     height: 32px;
@@ -122,4 +125,28 @@ const Warning = styled.div`
     align-items: center;
     padding: 0 8px;
     justify-content: space-between;
+`
+const Column = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.6;
+    > img {
+        filter: invert(100%);
+        animation: Circles 1s linear infinite;
+        position: relative;
+        left: 0;
+        bottom: 0;
+    }
+    @keyframes Circles {
+        0%, 100% { bottom: 0 }
+        25% { left: -10px }
+        50% { bottom: 10px }
+        75% { left: 10px }
+    }
+    > p {
+        text-align: center;
+        padding: 16px 16px 0;
+        color: white;
+    }
 `
