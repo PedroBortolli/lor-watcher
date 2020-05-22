@@ -23,16 +23,6 @@ rules.push({
   },
 })
 
-rules.push({
-  test: /\.(webp)$/,
-  loader: "webp-loader",
-  options: {
-    name: "[path][name].[ext]",
-    publicPath: "..", // move up from 'main_window'
-    context: "src", // set relative working folder to src
-  },
-})
-
 module.exports = {
   // Put your normal webpack config below here
   module: {
