@@ -69,7 +69,7 @@ const Container = styled.div`
     color: black;
     font-size: 20px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: 100%;
     > p {

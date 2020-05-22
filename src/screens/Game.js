@@ -98,6 +98,7 @@ const Game = ({ data, timeElapsed }) => {
                     <span>{data.OpponentName}</span>
                 </Players>
             </Info>
+            
             {localDeck && cardsSet && <DeckList deckCode={localDeck} cardsDrawn={localCards} cardsSet={cardsSet} />}
         </Column>
         :
@@ -108,6 +109,9 @@ export default hot(module)(Game)
 
 const Column = styled.div`
     display: flex;
+    width: 100%;
+    position: fixed;
+    top: 33.5px;
     flex-direction: column;
     align-items: center;
     padding-top: 8px;

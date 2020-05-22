@@ -51,9 +51,10 @@ const Card = styled.div`
     align-items: center;
     font-size: 20px;
     width: 300px;
-    height: 36px;
+    height: 30px;
     padding: 4px 0;
     user-select: none;
+    margin-bottom: 2px;
     > span { 
         position: absolute;
         color: white;

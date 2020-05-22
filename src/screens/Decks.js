@@ -57,6 +57,8 @@ export default hot(module)(Decks)
 const Container = styled.div`
     height: fill-available;
     width: 100%;
+    position: fixed;
+    top: 33.5px;
     color: white;
     display: flex;
     flex-direction: column;

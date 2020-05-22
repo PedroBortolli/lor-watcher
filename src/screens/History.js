@@ -21,8 +21,10 @@ const History = () => {
             setCardsSet(cards)
         }
         storage.get('history', (err, history) => {
-            if (!err && history && history instanceof Array) 
-                setHistory(history.sort((a, b) => a.timestamp < b.timestamp ? 1 : -1))
+            if (!err && history && history instanceof Array) {
+                const foo = history.sort((a, b) => a.timestamp < b.timestamp ? 1 : -1)
+                setHistory([...foo, ...foo])
+            }
             getSet()
         })
     }, [])
@@ -55,9 +57,14 @@ export default hot(module)(History)
 const Container = styled.div`
     height: fill-available;
     display: flex;
+    position: fixed;
+    top: 33.5px;
+    width: 100%;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
     > h2 { font-size: 24px }
+    ::-webkit-scrollbar { display: none }
 `
 const Match = styled.div`
     width: 320px;
