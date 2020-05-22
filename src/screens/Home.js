@@ -51,7 +51,7 @@ const Home = () => {
              tab === 'history' ?
                 <History />
             :
-             game.found ?
+             !game.found ?
                 <Game data={game.data} timeElapsed={timeElapsed} />
             :
                 <p>

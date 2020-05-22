@@ -11,8 +11,8 @@ app.disableHardwareAcceleration();
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800, //400
-    height: 900, //800
+    width: 320, //400
+    height: 840, //800
     //maxWidth: 600,
     //maxHeight: 900,
     //minWidth: 200,
@@ -29,7 +29,7 @@ const createWindow = () => {
   //mainWindow.setAlwaysOnTop(true, 'screen');
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
