@@ -45,6 +45,8 @@ export default hot(module)(DeckList)
 const Container = styled.div`
     width: 300px;
     margin: 16px;
+    overflow: auto;
+    ::-webkit-scrollbar { display: none }
 `
 const Card = styled.div`
     display: flex;
@@ -70,17 +72,19 @@ const Card = styled.div`
         justify-content: center;
         align-items: center;
         background-image: linear-gradient(#072042, #0e5375);
-        //background-color:  #0d3770;
+        position: relative;
+        left: -242px;
+        min-width: 32px;
     }
     .name {
         position: relative;
-        left: -196px;
+        left: -230px;
         font-weight: bold;
         min-width: 200px;
     }
     .count {
         position: relative;
-        left: -166px;
+        left: -202px;
     }
     > img {
         position: relative;
