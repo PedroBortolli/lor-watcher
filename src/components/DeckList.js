@@ -43,7 +43,7 @@ const DeckList = ({ deckCode, cardsDrawn, cardsSet }) => {
 export default hot(module)(DeckList)
 
 const Container = styled.div`
-    width: fill-available;
+    width: 300px;
     margin: 16px;
 `
 const Card = styled.div`
@@ -71,15 +71,21 @@ const Card = styled.div`
         background-image: linear-gradient(#072042, #0e5375);
         //background-color:  #0d3770;
     }
-    .name { 
-        left: 58px;
+    .name {
+        position: relative;
+        left: -196px;
         font-weight: bold;
+        min-width: 200px;
     }
-    .count { left: 290px }
+    .count {
+        position: relative;
+        left: -166px;
+    }
     > img {
-        position: absolute;
-        left: 40px;
+        position: relative;
+        left: 22px;
         width: 240px;
+        min-width: 240px;
         height: 30px;
         opacity: 0.7;
         border: 1.5px solid #dbd693;
