@@ -43,17 +43,20 @@ const DeckList = ({ deckCode, cardsDrawn, cardsSet }) => {
 export default hot(module)(DeckList)
 
 const Container = styled.div`
-    width: fill-available;
+    width: 300px;
     margin: 16px;
+    overflow: auto;
+    ::-webkit-scrollbar { display: none }
 `
 const Card = styled.div`
     display: flex;
     align-items: center;
     font-size: 20px;
     width: 300px;
-    height: 36px;
+    height: 30px;
     padding: 4px 0;
     user-select: none;
+    margin-bottom: 2px;
     > span { 
         position: absolute;
         color: white;
@@ -69,17 +72,25 @@ const Card = styled.div`
         justify-content: center;
         align-items: center;
         background-image: linear-gradient(#072042, #0e5375);
-        //background-color:  #0d3770;
+        position: relative;
+        left: -242px;
+        min-width: 32px;
     }
-    .name { 
-        left: 58px;
+    .name {
+        position: relative;
+        left: -230px;
         font-weight: bold;
+        min-width: 200px;
     }
-    .count { left: 290px }
+    .count {
+        position: relative;
+        left: -202px;
+    }
     > img {
-        position: absolute;
-        left: 40px;
+        position: relative;
+        left: 22px;
         width: 240px;
+        min-width: 240px;
         height: 30px;
         opacity: 0.7;
         border: 1.5px solid #dbd693;

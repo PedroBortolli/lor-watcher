@@ -108,6 +108,9 @@ export default hot(module)(Game)
 
 const Column = styled.div`
     display: flex;
+    width: 100%;
+    position: fixed;
+    top: 33.5px;
     flex-direction: column;
     align-items: center;
     padding-top: 8px;
