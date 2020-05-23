@@ -1,6 +1,6 @@
 {
   "name": "lor-watcher",
-  "productName": "lor-watcher",
+  "productName": "Lor Watcher",
   "version": "0.0.1",
   "description": "LoR Watcher",
   "main": ".webpack/main",
@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": {
-    "name": "Pedro Bortolli"
+    "name": "LoR Watcher"
   },
   "license": "MIT",
   "config": {
@@ -30,7 +30,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "lor_watcher"
+            "name": "LoR Watcher"
           }
         },
         {
