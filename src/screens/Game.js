@@ -1,114 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { getResult, getCards, getGame, getDeck } from '../api/api'
-import useInterval from '../hooks/useInterval'
 import DeckList from '../components/DeckList'
-import { UPDATE_FREQUENCY } from '../lib/constants'
-import storage from 'electron-json-storage'
-import { getRegionsChampions } from '../lib/deck'
 import { hot } from 'react-hot-loader'
 import { parse } from '../lib/timeParser'
-import { getDeckCards } from '../lib/local'
 
-const Game = ({ data, timeElapsed, finishGame }) => {
-    const [gameId, setGameId] = useState(-100000)
-    const [gameActive, setGameActive] = useState(true)
-    const [cardsSet, setCardsSet] = useState([])
-    const [localCards, setLocalCards] = useState([])
-    const [opponentCards, setOpponentCards] = useState([])
-    const [localDeck, setLocalDeck] = useState('')
-
-    useEffect(() => {
-        const getGameID = async () => {
-            const previousGame = await getResult()
-            setGameId(Number(previousGame.data.GameID) + 1)
-        }
-        const getSet = async () => {
-            const cards = await getCards()
-            setCardsSet(cards)
-        }
-        const getLocalDeck = async () => {
-            const deck = await getDeck()
-            setLocalDeck(deck.data.DeckCode)
-        }
-        getGameID()
-        getSet()
-        getLocalDeck()
-    }, [])
-
-    useInterval(() => {
-        const getGameResult = async () => {
-            const result = await getResult() 
-            if (gameId > -1 && result.data.GameID === gameId) {
-                const [localRegions, localChampions] = getRegionsChampions(getDeckCards(localDeck), cardsSet)
-                const [oppRegions, oppChampions] = getRegionsChampions(opponentCards, cardsSet)
-                const gameResult = {
-                    won: result.data.LocalPlayerWon,
-                    deck: localDeck,
-                    opponentRegions: oppRegions,
-                    opponentChampions: oppChampions,
-                    opponentName: data.OpponentName,
-                    localName: data.PlayerName,
-                    localRegions: localRegions,
-                    localChampions: localChampions,
-                    duration: timeElapsed,
-                    timestamp: + new Date()
-                }
-                storage.get('history', (err, history) => {
-                    console.log('saving match to history')
-                    if (!err) {
-                        if (history && history instanceof Array) storage.set('history', [...history, gameResult], e => {
-                            setGameActive(false)
-                            finishGame()
-                        })
-                        else storage.set('history', [gameResult], e => {
-                            setGameActive(false)
-                            finishGame()
-                        })
-                    }
-                    else {
-                        setGameActive(false)
-                        finishGame()
-                    }
-                })
-            }
-        }
-        const updateCards = async () => {
-            const result = await getGame()
-            const currentCards = result.data.Rectangles
-            let localPlayed = [], opponentPlayed = []
-            currentCards.forEach(card => {
-                if (card.CardCode !== 'face') {
-                    if (card.LocalPlayer) {
-                        if (!localCards.find(localCard => localCard.id === card.CardID))
-                            localPlayed.push({ id: card.CardID, code: card.CardCode })
-                    }
-                    else {
-                        if (!opponentCards.find(opponentCard => opponentCard.id === card.CardID))
-                            opponentPlayed.push({ id: card.CardID, code: card.CardCode })
-                    }
-                }
-            })
-            setLocalCards([...localCards, ...localPlayed])
-            setOpponentCards([...opponentCards, ...opponentPlayed])
-        }
-        getGameResult()
-        updateCards()
-    }, UPDATE_FREQUENCY)
-
+const Game = ({ data, timeElapsed, localDeck, localCards, cardsSet }) => {
     const gameTime = parse(timeElapsed)
-    return gameActive &&
-        <Column>
-            <Info>
-                <span>{gameTime}</span>
-                <Players>
-                    <span>{data.PlayerName}</span>
-                    <span>vs</span>
-                    <span>{data.OpponentName}</span>
-                </Players>
-            </Info>
-            {localDeck && cardsSet && <DeckList deckCode={localDeck} cardsDrawn={localCards} cardsSet={cardsSet} />}
-        </Column>
+    return <Column>
+        <Info>
+            <span>{gameTime}</span>
+            <Players>
+                <span>{data.PlayerName}</span>
+                <span>vs</span>
+                <span>{data.OpponentName}</span>
+            </Players>
+        </Info>
+        {localDeck && cardsSet && <DeckList deckCode={localDeck} cardsDrawn={localCards} cardsSet={cardsSet} />}
+    </Column>
 }
 
 export default hot(module)(Game)
