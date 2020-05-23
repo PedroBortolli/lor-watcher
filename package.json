@@ -19,7 +19,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "./src/assets/logo.png"
+        "icon": "src/assets/logoico.png"
       },
       "make_targets": {
         "win32": [
