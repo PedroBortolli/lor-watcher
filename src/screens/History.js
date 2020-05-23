@@ -31,7 +31,7 @@ const History = () => {
         })
     }, [])
 
-    const pages = 100 + Math.ceil(history.length / PER_PAGE)
+    const pages = Math.ceil(history.length / PER_PAGE)
     return (
         <Container>
             <h2>Match history</h2>
