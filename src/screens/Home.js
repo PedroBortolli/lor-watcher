@@ -115,10 +115,10 @@ const NavBar = styled.div`
 const Warning = styled.div`
     position: fixed;
     top: 32px;
-    height: 24px;
+    height: 20px;
     font-size: 14px;
     width: fill-available;
-    background-color: yellow;
+    background-color: #ad7f00;
     z-index: 999999;
     display: flex;
     align-items: center;

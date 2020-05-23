@@ -44,7 +44,7 @@ export default hot(module)(DeckList)
 
 const Container = styled.div`
     width: 300px;
-    margin: 16px;
+    margin: 16px 16px 36px 16px;
     overflow: auto;
     ::-webkit-scrollbar { display: none }
 `

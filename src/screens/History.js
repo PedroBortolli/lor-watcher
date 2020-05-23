@@ -12,9 +12,12 @@ import swordsCrossed from '../assets/swords-crossed.png'
 
 moment.locale('en')
 
+const PER_PAGE = 4
+
 const History = () => {
     const [history, setHistory] = useState([])
     const [cardsSet, setCardsSet] = useState([])
+    const [page, setPage] = useState(1)
     useEffect(() => {
         const getSet = async () => {
             const cards = await getCards()
@@ -28,11 +31,12 @@ const History = () => {
         })
     }, [])
 
+    const pages = 100 + Math.ceil(history.length / PER_PAGE)
     return (
         <Container>
             <h2>Match history</h2>
-            {history && cardsSet.length > 0 && history.map(game => {
-                if (game && game.deck) {
+            {history && cardsSet.length > 0 && history.map((game, id) => {
+                if (id >= (page - 1) * PER_PAGE && id < page * PER_PAGE && game && game.deck) {
                     const [localRegions, localChampions] = getRegionsChampions(getDeckCards(game.deck), cardsSet)
                     return <Match className={game.won ? 'victory' : 'defeat'} key={game.timestamp}>
                         <div className="result">{game.won ? 'Victory' : 'Defeat'}</div>
@@ -47,6 +51,11 @@ const History = () => {
                 }
                 else return null
             })}
+            <Pagination>
+                {Array.from(Array(pages), () => 0).map((_, id) => {
+                    return <span className={id + 1 === page ? 'selected' : ''} onClick={() => setPage(id+1)}>{id + 1}</span>
+            })}
+            </Pagination>
         </Container>
     )
 }
@@ -120,5 +129,23 @@ const Match = styled.div`
             height: 16px;
             width: 16px;
         }
+    }
+`
+const Pagination = styled.div`
+    display: inline-block;
+    padding: 0 8px;
+    text-align: center;
+    margin: 16px 0 36px;
+    max-width: 100%;
+    > span {
+        padding: 0 2px;
+        :not(last-child) { margin-right: 8px}
+        user-select: none;
+        cursor: pointer;
+        display: inline-block;
+    }
+    .selected {
+        font-weight: bold;
+        color: #dbd693;
     }
 `

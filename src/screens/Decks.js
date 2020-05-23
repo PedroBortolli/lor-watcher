@@ -15,7 +15,7 @@ const Decks = () => {
     const [orderedRecords, setRecords] = useState([])
     const [cardsSet, setCardsSet] = useState([])
     const [customDeckNames, setCustomDeckNames] = useState({})
-    const [deckName, setDeckName] = useState({ edit: false, input: '', lastCode: '', lastCustom: '' })
+    const [deckName, setDeckName] = useState({ edit: false, current: '', input: '', lastCode: '', lastCustom: '' })
     useEffect(() => {
         const getSet = async () => {
             const cards = await getCards()
@@ -45,9 +45,9 @@ const Decks = () => {
             console.log('saving deck code', deckCode, 'to ', deckName.input)
             if (!err) {
                 const newJson = {...names, [deckCode]: deckName.input}
-                storage.set('decknames', newJson, e => setDeckName({edit: false, input: '', lastCode: deckCode, lastCustom: deckName.input}))
+                storage.set('decknames', newJson, e => setDeckName({edit: false, input: '', current: '', lastCode: deckCode, lastCustom: deckName.input}))
             }
-            else setDeckName({edit: false, input: '', lastCode: '', lastCustom: ''})
+            else setDeckName({edit: false, input: '', current: '', lastCode: '', lastCustom: ''})
         })
     }
 
@@ -68,13 +68,13 @@ const Decks = () => {
                             <span className="title">{getCustomDeckName(record.code)}</span>
                             <div className="edit" style={{display: deckName.edit ? 'none' : 'block'}}>
                                 <img src={copy} title="Copy deck code to clipboard" onClick={() => navigator.clipboard.writeText(record.code)} />
-                                <img src={pencil} title="Edit deck name" onClick={() => setDeckName({...deckName, edit: true, input: ''})} />
+                                <img src={pencil} title="Edit deck name" onClick={() => setDeckName({...deckName, edit: true, current: record.code, input: ''})} />
                             </div>
-                            {deckName.edit && <div className="manual">
+                            {deckName.edit && deckName.current === record.code && <div className="manual">
                                 <input placeholder="Deck's new name" onChange={e => setDeckName({...deckName, edit: true, input: e.target.value})} onKeyDown={e => e.key === 'Enter' ? saveNewName(record.code) : ''} />
                                 <div className="buttons">
                                     <img src={tick} onClick={() => saveNewName(record.code)} />
-                                    <img src={close} onClick={() => setDeckName({edit: false, input: '', lastCode: '', lastCustom: ''})} />
+                                    <img src={close} onClick={() => setDeckName({edit: false, input: '', current: '', lastCode: '', lastCustom: ''})} />
                                 </div>
                             </div>}
                         </div>
@@ -104,6 +104,9 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     font-size: 16px;
+    overflow-y: auto;
+    ::-webkit-scrollbar { display: none }
+    margin-bottom: 48px;
 `
 const Card = styled.div`
     background-color: #132b66;
