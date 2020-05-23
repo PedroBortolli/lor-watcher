@@ -79,7 +79,6 @@
     "copy-webpack-plugin": "5",
     "css-loader": "^3.0.0",
     "electron": "8.3.0",
-    "electron-prebuilt-compile": "8.2.0",
     "node-loader": "^0.6.0",
     "path": "^0.12.7",
     "style-loader": "^0.23.1"
