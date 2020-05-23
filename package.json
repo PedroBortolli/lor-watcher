@@ -30,7 +30,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "LoR Watcher"
+            "name": "lor-watcher"
           }
         },
         {
