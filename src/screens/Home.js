@@ -52,7 +52,7 @@ const Home = () => {
                 <History />
             :
              game.found ?
-                <Game data={game.data} timeElapsed={timeElapsed} />
+                <Game data={game.data} timeElapsed={timeElapsed} finishGame={() => setGame({ found: false, data: {} })} />
             :
                 <Column>
                     <img style={{width: 144, height: 144}} src={search} />
