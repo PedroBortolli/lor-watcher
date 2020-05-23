@@ -13,20 +13,20 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 320, //400
     height: 840, //800
-    //maxWidth: 600,
-    //maxHeight: 900,
-    //minWidth: 200,
-    //minHeight: 400,
+    maxWidth: 480,
+    maxHeight: 1260,
+    minWidth: 320,
+    minHeight: 840,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false
+      webSecurity: false,
       //devTools: false
     }
   });
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  //mainWindow.setAlwaysOnTop(true, 'screen');
+  mainWindow.setAlwaysOnTop(true, 'screen');
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
