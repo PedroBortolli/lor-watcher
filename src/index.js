@@ -11,7 +11,10 @@ const Container = styled.div`
     position: fixed;
     top: 33.5px;
     left: 0;
-    > * { color: white }
+    > * {
+        color: white;
+        font-family: 'Poppins', sans-serif;
+    }
 `
 
 ReactDOM.render(<Container><Home /></Container>, document.getElementById('root'))
