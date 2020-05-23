@@ -32,7 +32,7 @@ const DeckList = ({ deckCode, cardsDrawn, cardsSet }) => {
                 <Card key={card.name}>
                     <img src={deck.backgrounds[card.code].default} />
                     <span className="cost">{card.cost}</span>
-                    <span className="name">{card.name}</span>
+                    <span className="name">{`${card.name.substr(0, 22)}${card.name.length > 22 ? '...' : ''}`}</span>
                     <span className="count">x{card.count}</span>
                 </Card>
             ))}
@@ -78,9 +78,13 @@ const Card = styled.div`
     }
     .name {
         position: relative;
-        left: -230px;
+        left: -234px;
+        font-size: 18px;
+        overflow: hidden;
+        white-space: nowrap;
         font-weight: bold;
         min-width: 200px;
+        display: block;
     }
     .count {
         position: relative;
