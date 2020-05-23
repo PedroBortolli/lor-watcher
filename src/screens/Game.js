@@ -10,7 +10,7 @@ import { hot } from 'react-hot-loader'
 import { parse } from '../lib/timeParser'
 import { getDeckCards } from '../lib/local'
 
-const Game = ({ data, timeElapsed }) => {
+const Game = ({ data, timeElapsed, finishGame }) => {
     const [gameId, setGameId] = useState(-100000)
     const [gameActive, setGameActive] = useState(true)
     const [cardsSet, setCardsSet] = useState([])
@@ -57,10 +57,19 @@ const Game = ({ data, timeElapsed }) => {
                 storage.get('history', (err, history) => {
                     console.log('saving match to history')
                     if (!err) {
-                        if (history && history instanceof Array) storage.set('history', [...history, gameResult], e => setGameActive(false))
-                        else storage.set('history', [gameResult], e => setGameActive(false))
+                        if (history && history instanceof Array) storage.set('history', [...history, gameResult], e => {
+                            setGameActive(false)
+                            finishGame()
+                        })
+                        else storage.set('history', [gameResult], e => {
+                            setGameActive(false)
+                            finishGame()
+                        })
                     }
-                    else setGameActive(false)
+                    else {
+                        setGameActive(false)
+                        finishGame()
+                    }
                 })
             }
         }
@@ -88,7 +97,7 @@ const Game = ({ data, timeElapsed }) => {
     }, UPDATE_FREQUENCY)
 
     const gameTime = parse(timeElapsed)
-    return gameActive ?
+    return gameActive &&
         <Column>
             <Info>
                 <span>{gameTime}</span>
@@ -100,8 +109,6 @@ const Game = ({ data, timeElapsed }) => {
             </Info>
             {localDeck && cardsSet && <DeckList deckCode={localDeck} cardsDrawn={localCards} cardsSet={cardsSet} />}
         </Column>
-        :
-    <Redirect to="/home" />
 }
 
 export default hot(module)(Game)
