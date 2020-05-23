@@ -38,10 +38,10 @@ const Game = ({ data, timeElapsed }) => {
 
     useInterval(() => {
         const getGameResult = async () => {
-            const result = await getResult()
+            const result = await getResult() 
             if (gameId > -1 && result.data.GameID === gameId) {
                 const [localRegions, localChampions] = getRegionsChampions(getDeckCards(localDeck), cardsSet)
-                const [oppRegions, oppChampions] = getRegionsChampions(opponentCards, cardSet)
+                const [oppRegions, oppChampions] = getRegionsChampions(opponentCards, cardsSet)
                 const gameResult = {
                     won: result.data.LocalPlayerWon,
                     deck: localDeck,
