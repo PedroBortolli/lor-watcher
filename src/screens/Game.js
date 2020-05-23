@@ -41,7 +41,7 @@ const Game = ({ data, timeElapsed }) => {
             const result = await getResult()
             if (gameId > -1 && result.data.GameID === gameId) {
                 const [localRegions, localChampions] = getRegionsChampions(getDeckCards(localDeck), cardsSet)
-                const [oppRegions, oppChampions] = getRegionsChampions(opponentPlayed, cardSet)
+                const [oppRegions, oppChampions] = getRegionsChampions(opponentCards, cardSet)
                 const gameResult = {
                     won: result.data.LocalPlayerWon,
                     deck: localDeck,
