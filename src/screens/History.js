@@ -107,7 +107,10 @@ const Match = styled.div`
         align-items: flex-end;
     }
     .time { grid-area: time }
-    .date { grid-area: date }
+    .date {
+        grid-area: date;
+        font-size: 12px;
+    }
     .rl { grid-area: rl }
     .ro { grid-area: ro }
     .local {
