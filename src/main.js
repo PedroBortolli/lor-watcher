@@ -20,7 +20,7 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
-      //devTools: false
+      devTools: false
     }
   });
 

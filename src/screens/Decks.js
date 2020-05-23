@@ -104,6 +104,9 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     font-size: 16px;
+    overflow-y: auto;
+    ::-webkit-scrollbar { display: none }
+    margin-bottom: 48px;
 `
 const Card = styled.div`
     background-color: #132b66;
