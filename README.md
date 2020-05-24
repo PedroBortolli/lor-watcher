@@ -31,14 +31,13 @@ Being one of the features I miss the most in Legends of Runeterra, LoR Watcher w
 * Length of the match (in mm:ss)
 * Date and time of the match
 
-![Match History](https://i.imgur.com/0MWBxon.png)
+![Match History](https://i.imgur.com/0ESmxZs.png)
 
 ## Deck win rates
 
 Check how many times each deck you've played won and lost. By default the deck names shown in the app will be their deck codes (the game API does not show custom names of decks), but that is editable inside the app.
 
-
-![Match History](https://i.imgur.com/0ESmxZs.png)
+![Match History](https://i.imgur.com/0MWBxon.png)
 
 
 ## Current limitations
