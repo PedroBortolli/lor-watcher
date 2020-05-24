@@ -33,7 +33,9 @@ const Home = () => {
 
     useEffect(() => {
         const getLocalDeck = async () => {
+            console.log('pegando deck local')
             const deck = await getDeck()
+            console.log('deck encontrado = ', deck)
             setLocalDeck(deck.data.DeckCode)
         }
         if (!game.found) {

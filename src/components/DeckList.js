@@ -7,7 +7,9 @@ const DeckList = ({ deckCode, cardsDrawn, cardsSet }) => {
     const [deck, setDeck] = useState({ cards: [], backgrounds: {} })
 
     useEffect(() => {
+        console.log('pegando cartas do deck code = ', deckCode)
         const staticDeck = getDeckCards(deckCode)
+        console.log(staticDeck)
         let imgs = {}
         setDeck({cards: staticDeck.reduce((tot, card) => {
             let seen = 0
@@ -52,7 +54,7 @@ const Card = styled.div`
     display: flex;
     align-items: center;
     font-size: 20px;
-    width: 300px;
+    width: 292px;
     height: 30px;
     padding: 4px 0;
     user-select: none;
@@ -73,7 +75,7 @@ const Card = styled.div`
         align-items: center;
         background-image: linear-gradient(#072042, #0e5375);
         position: relative;
-        left: -242px;
+        left: -240px;
         min-width: 32px;
     }
     .name {
@@ -88,7 +90,7 @@ const Card = styled.div`
     }
     .count {
         position: relative;
-        left: -202px;
+        left: -206px;
     }
     > img {
         position: relative;
