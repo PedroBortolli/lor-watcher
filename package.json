@@ -1,7 +1,7 @@
 {
   "name": "lor-watcher",
   "productName": "Lor Watcher",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "LoR Watcher",
   "main": ".webpack/main",
   "scripts": {
