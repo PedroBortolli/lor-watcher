@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { hot } from 'react-hot-loader'
 import useInterval from '../hooks/useInterval'
 import { getResult, getCards, getGame, getDeck } from '../api/api'
-import { SEARCH_FREQUENCY, UPDATE_FREQUENCY } from '../lib/constants'
+import { SEARCH_FREQUENCY, UPDATE_FREQUENCY, FINISH_FREQUENCY } from '../lib/constants'
 import Decks from './Decks'
 import History from './History'
 import Logo from '../assets/logo.png'
@@ -13,7 +13,6 @@ import search from '../assets/search.png'
 import { getRegionsChampions } from '../lib/deck'
 import { getDeckCards } from '../lib/local'
 import storage from 'electron-json-storage'
-
 
 const Home = () => {
     const [game, setGame] = useState({ found: false, id: -100000, data: {} })
@@ -60,6 +59,29 @@ const Home = () => {
     }, game.found ? null : SEARCH_FREQUENCY)
 
     useInterval(() => {
+        const updateCards = async () => {
+            const result = await getGame()
+            const currentCards = result.data.Rectangles
+            let localPlayed = [], opponentPlayed = []
+            currentCards.forEach(card => {
+                if (card.CardCode !== 'face') {
+                    if (card.LocalPlayer) {
+                        if (!localCards.find(localCard => localCard.id === card.CardID) && (timeElapsed > 90 || card.TopLeftY < 105))
+                            localPlayed.push({ id: card.CardID, code: card.CardCode })
+                    }
+                    else {
+                        if (!opponentCards.find(opponentCard => opponentCard.id === card.CardID))
+                            opponentPlayed.push({ id: card.CardID, code: card.CardCode })
+                    }
+                }
+            })
+            setLocalCards([...localCards, ...localPlayed])
+            setOpponentCards([...opponentCards, ...opponentPlayed])
+        }
+        updateCards()
+    }, game.found ? UPDATE_FREQUENCY : null)
+
+    useInterval(() => {
         const getGameResult = async () => {
             const result = await getResult()
             if (game.id > -1 && result.data.GameID === game.id) {
@@ -93,28 +115,8 @@ const Home = () => {
                 })
             }
         }
-        const updateCards = async () => {
-            const result = await getGame()
-            const currentCards = result.data.Rectangles
-            let localPlayed = [], opponentPlayed = []
-            currentCards.forEach(card => {
-                if (card.CardCode !== 'face') {
-                    if (card.LocalPlayer) {
-                        if (!localCards.find(localCard => localCard.id === card.CardID) && (timeElapsed > 90 || card.TopLeftY < 105))
-                            localPlayed.push({ id: card.CardID, code: card.CardCode })
-                    }
-                    else {
-                        if (!opponentCards.find(opponentCard => opponentCard.id === card.CardID))
-                            opponentPlayed.push({ id: card.CardID, code: card.CardCode })
-                    }
-                }
-            })
-            setLocalCards([...localCards, ...localPlayed])
-            setOpponentCards([...opponentCards, ...opponentPlayed])
-        }
-        updateCards()
         getGameResult()
-    }, game.found ? UPDATE_FREQUENCY : null)
+    }, game.found ? FINISH_FREQUENCY : null)
 
     useInterval(() => updateTime(prevTime => prevTime + 1), game.found ? 1000 : null)
     const gameTime = parse(timeElapsed)
