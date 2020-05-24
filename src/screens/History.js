@@ -75,7 +75,7 @@ const Container = styled.div`
     ::-webkit-scrollbar { display: none }
 `
 const Match = styled.div`
-    width: 320px;
+    width: 296px;
     height: 150px;
     border-bottom: 1.5px solid black;
     &.victory { background-color: #187d49 }
@@ -86,7 +86,7 @@ const Match = styled.div`
                          ". date date date ."
                          "local local vs opp opp"
                          "rl rl vs ro ro";
-    grid-template-columns: 80px 60px 40px 60px 80px;
+    grid-template-columns: 68px 60px 40px 60px 68px;
     grid-template-rows: 30px 20px 20px 30px 50px;
     > div {
         display: flex;

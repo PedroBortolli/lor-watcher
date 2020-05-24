@@ -11,11 +11,11 @@ app.disableHardwareAcceleration();
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 320, //400
-    height: 840, //800
-    maxWidth: 480,
+    width: 296,
+    height: 840,
+    maxWidth: 444,
     maxHeight: 1260,
-    minWidth: 320,
+    minWidth: 296,
     minHeight: 840,
     webPreferences: {
       nodeIntegration: true,

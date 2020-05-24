@@ -112,12 +112,12 @@ const Card = styled.div`
     background-color: #132b66;
     border: 2px solid #132b66;
     border-radius: 4px;
-    width: 300px;
+    width: 288px;
     margin: 0 10px 32px;
     display: grid;
     grid-template-areas: "name regions"
                          "winrate regions";
-    grid-template-columns: 200px 100px;
+    grid-template-columns: 200px 88px;
     grid-template-rows: 32px 32px;
     .name {
         grid-area: name;
