@@ -20,7 +20,7 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
-      //devTools: false
+      devTools: false
     }
   });
 
@@ -28,7 +28,7 @@ const createWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
   mainWindow.setAlwaysOnTop(true, 'screen');
   mainWindow.setMenuBarVisibility(false);
-  //mainWindow.removeMenu();
+  mainWindow.removeMenu();
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();

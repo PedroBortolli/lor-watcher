@@ -33,15 +33,12 @@ const Home = () => {
 
     useEffect(() => {
         const getLocalDeck = async () => {
-            console.log('pegando deck local')
             const deck = await getDeck()
-            console.log('deck encontrado = ', deck)
             setLocalDeck(deck.data.DeckCode)
         }
         if (!game.found) {
             updateTime(0)
             setLocalDeck('')
-            setCardsSet([])
             setLocalCards([])
             setOpponentCards([])
         }
@@ -189,8 +186,8 @@ const NavBar = styled.div`
     }
     > span {
         cursor: pointer;
-        margin-left: 24px;
-        :nth-child(2) { margin-left: 20px }
+        margin-left: 20px;
+        :nth-child(2) { margin-left: 16px }
         color: white;
         font-size: 18px;
         text-decoration: none;
